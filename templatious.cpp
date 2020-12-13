@@ -1,7 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<cmath>
-#include<type_traits>
+
 
 using namespace std;
 
@@ -111,6 +111,22 @@ class List : public Node<int>{
 
 };
 
+template<typename T, typename U>
+class Templatious{
+    private:
+        T var;
+        U var2;
+    public:
+        Templatious(){}
+        Templatious(T n_var, U n_var2){
+            var = n_var;
+            var2 = n_var2;
+        }
+        void print(){
+            cout<<"Variable 1 is "<<var<<" and variable 2 is "<<var2<<"."<<endl;
+        }
+};
+
 
 
 
@@ -141,5 +157,7 @@ int main(){
         intList.insertNext(new Node<int>(ints[i]));
     }
     intList.print();
+    Templatious<int, float> klazzy(1, 14.5);
+    klazzy.print();
         
 }
