@@ -71,34 +71,48 @@ int index(vector<T> values, T value){
     return ndx;
 }
 
-
-struct Link{
+template<typename T>
+class Node{
     public:
-    
-    string data;
-    Link* nextLink;
-
-    Link(string newData){
-        this->data = newData;
-        this->nextLink = 0;
-    }
-    void addLink(Link* l){
-        l->nextLink = this -> nextLink;
-        this -> nextLink = l;
-    }
-    void removeLink(){
-        Link* l = this -> nextLink;
-        this -> nextLink = l -> nextLink;
-        delete l;
-    }
+        T data;
+        Node* next;
+        Node(T d){
+            this -> data = d;
+            this -> next = 0;
+        }
+        void insertNext(Node* n){
+            n -> next = this -> next;
+            this -> next = n;
+        }
+        void popNext(){
+            Node* n = this -> next;
+            this -> next = n-> next;
+            delete n;
+        }
 };
 
-struct Chain : public Link{
+class List : public Node<int>{
     public:
-        Chain() : Link(){}
-
+        List() : Node(0){}
+        ~List(){
+            while( this -> next !=0){
+                this -> popNext();
+            }
+        }
+        void print(){
+            Node* n;
+            cout<<"Linked list:"<<endl;
+            n = this -> next;
+            while(n != 0){
+                cout << n -> data << endl;
+                n = n -> next;
+            }
+        }
 
 };
+
+
+
 
 int main(){
     Point p1(2, 4);
@@ -118,9 +132,14 @@ int main(){
     printf("\nSum of all points is (%i, %i).\n", newPoint.x, newPoint.y);
     
     
-    vector<float> ints = {1,2,3,4,5,6,-45,1,10001.6,78,-50};
+    vector<int> ints = {1,2,3,4,5,6,-45,1,10001,78,-50};
     Point maxPoint = maxValue(points);
     printf("The point with the largest distance from the origin is: (%i, %i).\n", maxPoint.x, maxPoint.y);
-    printf("The point p3 is the %i-th element in the vector points.",index(points, p3));
-    
+    printf("The point p3 is the %i-th element in the vector points.\n",index(points, p3));
+    List intList;
+    for(int i = 0; i< ints.size(); i++){
+        intList.insertNext(new Node<int>(ints[i]));
+    }
+    intList.print();
+        
 }
